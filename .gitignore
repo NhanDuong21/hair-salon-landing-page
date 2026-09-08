@@ -11,3 +11,10 @@
 /.impeccable/config.local.json
 /.impeccable/questions/
 /.impeccable/live/
+.codex/
+.agents/
+.impeccable/
+/assets/
+/evidence/
+/skills-lock.json
+/app/icon.png
