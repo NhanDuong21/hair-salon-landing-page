@@ -8,7 +8,12 @@ import {
 import { Arrow } from "@/components/icons";
 import { services, stylists, faqs, priceLabel, salon } from "@/lib/salon";
 
+const assetBasePath = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
+  : "";
+
 export default function Home() {
+  const image = (path: string) => `${assetBasePath}${path}`;
   return (
     <BookingProvider>
       <a className="skip-link" href="#noi-dung">
@@ -46,7 +51,7 @@ export default function Home() {
           <figure className="hero-figure">
             <div className="hero-image">
               <Image
-                src="/images/hero.webp"
+                src={image("/images/hero.webp")}
                 alt="Khách đang được tạo kiểu tóc trong không gian salon sáng dịu, ảnh minh họa"
                 fill
                 sizes="(max-width: 767px) 100vw, 50vw"
@@ -205,7 +210,7 @@ export default function Home() {
               <figure className="style-figure style-bob">
                 <div className="style-image">
                   <Image
-                    src="/images/hair-bob.webp"
+                    src={image("/images/hair-bob.webp")}
                     alt="Tóc bob đen với mái bằng, ảnh gợi ý phong cách"
                     fill
                     sizes="(max-width: 599px) 55vw, 40vw"
@@ -219,7 +224,7 @@ export default function Home() {
               <figure className="style-figure style-waves">
                 <div className="style-image">
                   <Image
-                    src="/images/hair-waves.webp"
+                    src={image("/images/hair-waves.webp")}
                     alt="Mái tóc nâu uốn sóng nhẹ dưới ánh sáng cửa sổ, ảnh gợi ý"
                     fill
                     sizes="(max-width: 599px) 45vw, 30vw"
@@ -233,7 +238,7 @@ export default function Home() {
               <figure className="style-figure style-color">
                 <div className="style-image">
                   <Image
-                    src="/images/hair-color.webp"
+                    src={image("/images/hair-color.webp")}
                     alt="Mái tóc dài chuyển sắc nâu sáng, ảnh gợi ý màu tóc"
                     fill
                     sizes="(max-width: 599px) 55vw, 30vw"
@@ -256,7 +261,7 @@ export default function Home() {
           <figure className="space-figure">
             <div className="space-image">
               <Image
-                src="/images/interior.webp"
+                src={image("/images/interior.webp")}
                 alt="Không gian salon với gương tròn, ghế làm tóc và cây xanh; ảnh stock minh họa"
                 fill
                 sizes="(max-width: 767px) 100vw, 55vw"

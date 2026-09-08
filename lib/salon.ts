@@ -1,3 +1,7 @@
+const assetBasePath = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
+  : "";
+
 export const salon = {
   name: "Sol. Hair Studio",
   description:
@@ -69,21 +73,21 @@ export const stylists = [
     name: "An",
     role: "Cắt & tạo dáng",
     description: "Dáng cắt gọn, dễ chăm mỗi ngày.",
-    image: "/images/stylist-an.webp",
+    image: `${assetBasePath}/images/stylist-an.webp`,
   },
   {
     id: "linh",
     name: "Linh",
     role: "Màu tóc & chăm sóc",
     description: "Tông màu tự nhiên, mái tóc mềm khỏe.",
-    image: "/images/stylist-linh.webp",
+    image: `${assetBasePath}/images/stylist-linh.webp`,
   },
   {
     id: "minh",
     name: "Minh",
     role: "Uốn & tạo kiểu",
     description: "Sóng nhẹ và độ phồng vừa đủ.",
-    image: "/images/stylist-minh.webp",
+    image: `${assetBasePath}/images/stylist-minh.webp`,
   },
 ] as const;
 
