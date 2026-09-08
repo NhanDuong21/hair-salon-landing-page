@@ -1,0 +1,76 @@
+{
+  "checkedOn": "2026-09-07",
+  "license": {
+    "name": "Pexels License",
+    "url": "https://www.pexels.com/license/",
+    "verification": "Official photo pages each show Free to use and link to the Pexels License. Download URLs were taken from the official photo page Free download link, not fabricated.",
+    "summary": "Pexels permits free use and modification on websites, with attribution optional. It prohibits implying endorsement by depicted people or brands, offensive depictions of identifiable people, stock-platform redistribution, and use as a trademark. These are free Pexels stock photos, not paid Unsplash+.",
+    "usageNotes": "Label personnel and photos as fictional illustrations. Do not claim these depict real salon staff, clientele, premises, or before-and-after results. The license does not turn the models into actual staff or endorsers."
+  },
+  "images": [
+    {
+      "file": "/images/hero.webp",
+      "photographer": "Alexander Mass",
+      "source": "https://www.pexels.com/photo/woman-getting-hair-styled-at-salon-29498301/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 29498301,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/interior.webp",
+      "photographer": "Max Vakhtbovych",
+      "source": "https://www.pexels.com/photo/photo-of-a-hair-salon-7750115/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 7750115,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/hair-bob.webp",
+      "photographer": "Anna Tarazevich",
+      "source": "https://www.pexels.com/photo/a-woman-looking-at-the-camera-4927365/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 4927365,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/hair-waves.webp",
+      "photographer": "光术 山影",
+      "source": "https://www.pexels.com/photo/portrait-of-woman-with-brown-hair-19115784/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 19115784,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/hair-color.webp",
+      "photographer": "Brian Jess Ragaza",
+      "source": "https://www.pexels.com/photo/woman-with-brown-hair-18939542/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 18939542,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/stylist-an.webp",
+      "photographer": "Kindel Media",
+      "source": "https://www.pexels.com/photo/close-up-shot-of-a-pretty-woman-in-beige-button-up-shirt-smiling-7651642/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 7651642,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/stylist-linh.webp",
+      "photographer": "cottonbro studio",
+      "source": "https://www.pexels.com/photo/woman-in-beige-knit-sweater-smiling-7760240/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 7760240,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    },
+    {
+      "file": "/images/stylist-minh.webp",
+      "photographer": "Enson",
+      "source": "https://www.pexels.com/photo/young-man-smiling-in-white-shirt-studio-portrait-33971228/",
+      "license": "https://www.pexels.com/license/",
+      "photoId": 33971228,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+    }
+  ]
+}
