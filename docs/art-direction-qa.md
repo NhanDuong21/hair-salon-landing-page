@@ -4,10 +4,10 @@ Implemented the three requested desktop scenes while retaining the accepted mobi
 
 ## Implementation
 
-- Hero: visible main photo and immediate left CTA; two secondary photo planes, staggered depth entrance, pointer depth and different scroll rates.
+- Hero: visible, stable main frame and immediate left CTA; the image inside it zooms by 2.5% while two face-on secondary frames drift vertically over separate 22s/18s round trips and opposite starting directions. The one-time vertical entrance completes in under one second. The hero has no pointer response or scroll-linked transform.
 - Gallery: five photographs, horizontal movement, Y rotation, front/back depth, one 1250px native-scroll pin. Stable central caption, previous/next, count/progress and Skip. No wheel/touch interception or snap. Offstage photographs have no focusable controls and are inert/ARIA-hidden.
 - Space: two opposite 34s/41s vertical loops, restrained perspective and white-fading edges. Copy and booking CTA stay still; this section does not pin.
-- Header pause stops autoplay and pointer reactions. Ribbons stop offscreen and while booking is open; `visibilitychange` also suspends playback.
+- Header pause stops the new hero zoom/drift and existing autoplay. Hero and ribbons stop offscreen and while booking is open; `visibilitychange` also suspends playback. Resume continues from the held playhead and does not replay the hero entrance.
 - GSAP 3.15.0 is a conditional import; its production scene chunk is 118,739 bytes raw / 45,890 bytes gzip. Full motion requires ≥1100px wide, ≥650px tall, hover/fine pointer, and no reduced-motion preference.
 - Seven new optimized WebP photographs total 311,566 bytes. All sources, photographer names, license links and crop settings are in `public/images/motion/sources.json`. Original eight images, including personnel, are unchanged. Only the five requested GSAP skills were installed under `.agents/skills/`; global configuration was not changed.
 
@@ -29,7 +29,10 @@ Evidence is local in `evidence/art-direction/` (already ignored by this reposito
 | Reduced motion mid-gallery | Pin removed; all five photos visible, non-inert, with inline transforms/visibility cleared |
 | Repeated 430 → 1440 → 375 → 1440 resize | Zero pins/inline frame transforms on narrow widths; one pin after re-entering desktop |
 | Motion import failure | Blocked the actual scene JS chunk through browser network tools; static five-photo gallery and booking remain usable |
-| Hero pointer after scroll | Different transform samples confirmed after scrolling while the pointer remains inside |
+| Hero pointer independence | With autoplay paused, rapid pointer moves across all three frames left every hero transform sample byte-identical; no hero pointer listener/tween remains |
+| Hero idle motion | Main frame bounds stayed fixed while its image scale changed 1 → 1.025; back/front translated only on Y through 24px/20px ranges with 22s/18s round trips |
+| Hero viewport / booking | Hero transform samples stayed identical offscreen and while booking was open, then continued from the held state without replaying the entrance |
+| User pause priority | Pause survived booking open/close and a desktop → narrow → desktop breakpoint round trip without autoplay resuming |
 | Skip after polish | Target receives focus and settles at ~104px below viewport top, clear of the sticky header |
 | Automated checks | ESLint with zero warnings, TypeScript, production static build, all 9 booking tests pass |
 
@@ -45,7 +48,8 @@ Production local preview in the Codex Chromium browser, 1440×900, without CPU/n
 
 ## Deliverables
 
-- `sol-desktop-motion.mp4`: ~28-second actual browser screencast, including hero pointer movement, gallery forward/reverse and opposing ribbons. Source frame timestamps retained in `final-video-frames.json`; capture/encoding cadence is not a 60fps claim.
+- `evidence/hero-motion-refine/sol-hero-standby-pointer.mp4`: 24.6-second browser recording of the refined hero with the page configured at 1440×900, including its one-time arrival, long idle drift/zoom and five rapid pointer moves across the composition. The host-native 1426×660 capture uses 71 timestamped browser frames; the recording is evidence of behavior, not a frame-rate claim.
+- `sol-desktop-motion.mp4`: earlier ~28-second art-direction recording of the gallery and ribbons; its hero segment predates this refinement and is retained only as historical evidence.
 - `final-hero-{1280,1440,1920}.png`, `final-gallery-{1280,1440,1920}.png`, `final-space-{1280,1440,1920}.png`.
 - `final-mobile-{hero,gallery,space}-{375,430}.png`, `final-mobile-booking-430.png`.
 - `mobile-comparison-{375,430}.png`: baseline and final mobile hero side by side.

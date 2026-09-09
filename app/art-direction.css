@@ -5,20 +5,23 @@
   section[id] { scroll-margin-top: 0; }
   .hero { padding-block: 48px 56px; gap: 58px; }
   .hero-copy { position: relative; z-index: 2; }
-  .hero-scene { position: relative; height: 570px; perspective: 1200px; isolation: isolate; }
-  .hero-layer { position: absolute; transform-style: preserve-3d; }
-  .hero-depth, .hero-arrival { width: 100%; height: 100%; transform-style: preserve-3d; }
+  .hero-scene { position: relative; height: 570px; isolation: isolate; }
+  .hero-layer { position: absolute; }
+  .hero-depth, .hero-arrival { width: 100%; height: 100%; }
   .hero-photo-plane { width: 100%; height: 100%; overflow: hidden; border-radius: 4px; box-shadow: 8px 18px 34px #20262214; }
   .hero-photo-plane picture, .hero-photo-plane picture img { display: block; width: 100%; height: 100%; }
   .hero-layer-main { left: 0; top: 73px; width: 82%; height: 438px; z-index: 2; }
   .hero-layer-main .hero-photo-plane { border-top-left-radius: 100px; }
   .hero-layer-main .hero-image { height: 100%; }
   .hero-layer-main img { animation: none; }
-  .hero-layer-back { display: block; right: 0; top: 2px; width: 34%; height: 372px; z-index: 1; transform: rotateY(-12deg) rotate(5deg); }
+  .hero-layer-back { display: block; right: 0; top: 2px; width: 34%; height: 372px; z-index: 1; }
   .hero-layer-back .hero-photo-plane { border-top-right-radius: 75px; }
-  .hero-layer-front { display: block; right: 0; top: 347px; width: 35%; height: 218px; z-index: 3; transform: rotateY(-9deg) rotate(-5deg); }
+  .hero-layer-front { display: block; right: 0; top: 347px; width: 35%; height: 218px; z-index: 3; }
   .hero-layer-front .hero-photo-plane { border-bottom-right-radius: 54px; }
   .hero-layer-front img { object-position: 62% center; }
+  html[data-sol-motion="ready"] .hero-layer-back .hero-depth,
+  html[data-sol-motion="ready"] .hero-layer-front .hero-depth,
+  html[data-sol-motion="ready"] .hero-layer-main img { will-change: transform; }
   .hero-figure figcaption { padding-top: 12px; }
   .hero .image-label { font-size: 11px; left: 17px; bottom: 18px; }
   .inspiration-section { padding-block: 40px; }

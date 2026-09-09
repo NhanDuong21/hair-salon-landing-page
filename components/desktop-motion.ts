@@ -3,6 +3,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export type MotionController = { setSuspended: (value: boolean) => void; destroy: () => void };
 
+let heroIntroHasStarted = false;
+
 /** Loaded only for wide screens with a fine pointer and no reduced-motion preference. */
 export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolean): MotionController {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,37 +23,56 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
   try {
     context.add(() => {
       const hero = select(".hero-scene");
-      const layers = all(".hero-layer");
-      const planes = all(".hero-depth");
-      const arrivals = all(".hero-arrival");
-      const intro = gsap.timeline({ defaults: { duration: 0.9, ease: "power3.out" } });
-      intro.fromTo(arrivals[0], { x: 38, y: -35, z: -150, rotationY: -14 }, { x: 0, y: 0, z: 0, rotationY: 0 }, 0)
-        .fromTo(arrivals[1], { x: 8, y: 24, z: -45, rotationY: 5 }, { x: 0, y: 0, z: 0, rotationY: 0 }, 0)
-        .fromTo(arrivals[2], { x: 55, y: 65, z: 110, rotationY: 16 }, { x: 0, y: 0, z: 0, rotationY: 0 }, 0.1);
-      autoplay.push({ animation: intro, visible: true });
-      gsap.to(layers, {
-        y: (i) => [-28, -65, -120][i], ease: "none",
-        scrollTrigger: { trigger: select(".hero"), start: "top top", end: "bottom top", scrub: true },
-      });
-      const pointerTweens: gsap.core.Tween[] = [];
-      const pointer = planes.map((plane, index) => {
-        gsap.set(plane, { rotationY: 0, rotationX: 0, x: 0, y: 0 });
-        const options = { duration: 0.55, ease: "power3.out" };
-        const setters = { x: gsap.quickTo(plane, "x", options), y: gsap.quickTo(plane, "y", options), rx: gsap.quickTo(plane, "rotationX", options), ry: gsap.quickTo(plane, "rotationY", options), depth: [5, 10, 18][index] };
-        pointerTweens.push(setters.x.tween, setters.y.tween, setters.rx.tween, setters.ry.tween);
-        return setters;
-      });
-      let heroBox: DOMRect | null = null;
-      listen(hero, "pointerenter", () => { heroBox = hero.getBoundingClientRect(); });
-      listen(hero, "pointermove", ((event: PointerEvent) => {
-        if (suspended) return;
-        heroBox ??= hero.getBoundingClientRect();
-        const x = (event.clientX - heroBox.left) / heroBox.width - 0.5;
-        const y = (event.clientY - heroBox.top) / heroBox.height - 0.5;
-        pointer.forEach(p => { p.x(x * p.depth); p.y(y * p.depth); p.rx(-y * 6); p.ry(x * 9); });
-      }) as EventListener);
-      listen(hero, "pointerleave", () => { heroBox = null; pointer.forEach(p => { p.x(0); p.y(0); p.rx(0); p.ry(0); }); });
-      listen(window, "scroll", () => { heroBox = null; });
+      const backArrival = select(".hero-layer-back .hero-arrival");
+      const mainArrival = select(".hero-layer-main .hero-arrival");
+      const frontArrival = select(".hero-layer-front .hero-arrival");
+      const backDepth = select(".hero-layer-back .hero-depth");
+      const frontDepth = select(".hero-layer-front .hero-depth");
+      const mainImage = select<HTMLImageElement>(".hero-layer-main img");
+      const heroLoops = [
+        gsap.fromTo(mainImage, { scale: 1 }, { scale: 1.025, duration: 12, repeat: -1, yoyo: true, ease: "sine.inOut", paused: true }),
+        gsap.fromTo(backDepth, { y: -12 }, { y: 12, duration: 11, repeat: -1, yoyo: true, ease: "sine.inOut", paused: true }).progress(0.5),
+        gsap.fromTo(frontDepth, { y: 10 }, { y: -10, duration: 9, repeat: -1, yoyo: true, ease: "sine.inOut", paused: true }).progress(0.5),
+      ];
+      const heroLoopItems = heroLoops.map(animation => ({ animation, visible: false }));
+      autoplay.push(...heroLoopItems);
+      const heroRect = hero.getBoundingClientRect();
+      let heroVisible = heroRect.bottom > 0 && heroRect.top < window.innerHeight;
+      let introDone = heroIntroHasStarted;
+      let introItem: { animation: gsap.core.Animation; visible: boolean } | null = null;
+      if (!heroIntroHasStarted) {
+        const intro = gsap.timeline({
+          paused: true,
+          defaults: { ease: "power3.out" },
+          onStart: () => { heroIntroHasStarted = true; },
+          onComplete: () => {
+            introDone = true;
+            if (introItem) introItem.visible = false;
+            heroLoopItems.forEach(item => { item.visible = heroVisible; });
+            sync();
+          },
+        });
+        intro.fromTo(mainArrival, { y: 18 }, { y: 0, duration: 0.82 }, 0)
+          .fromTo(backArrival, { y: -24 }, { y: 0, duration: 0.9 }, 0.02)
+          .fromTo(frontArrival, { y: 22 }, { y: 0, duration: 0.86 }, 0.1);
+        introItem = { animation: intro, visible: heroVisible };
+        autoplay.push(introItem);
+      } else {
+        heroLoopItems.forEach(item => { item.visible = heroVisible; });
+      }
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        heroVisible = entry.isIntersecting;
+        if (introItem && !introDone) introItem.visible = heroVisible;
+        heroLoopItems.forEach(item => { item.visible = introDone && heroVisible; });
+        hero.dataset.visible = String(heroVisible);
+        hero.dataset.running = String(heroVisible && !suspended);
+        sync();
+      }, { threshold: 0 });
+      heroObserver.observe(hero);
+      cleanups.push(() => heroObserver.disconnect());
+      cleanups.push(() => { delete hero.dataset.visible; delete hero.dataset.running; });
+
+      const teamPointerTweens: gsap.core.Tween[] = [];
       // Portraits move independently; adjacent names and selection buttons never move.
       all(".team-photo").forEach((photo, index) => {
         const entrance = gsap.fromTo(photo, { y: [24, 42, 16][index], rotationX: [4, -3, 3][index], opacity: 0.85 }, { y: 0, rotationX: 0, opacity: 1, duration: 0.7, paused: true, ease: "power3.out" });
@@ -62,7 +83,7 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
         gsap.set(img, { scale: 1.035, x: 0, y: 0 });
         const xTo = gsap.quickTo(img, "x", { duration: 0.45, ease: "power3.out" });
         const yTo = gsap.quickTo(img, "y", { duration: 0.45, ease: "power3.out" });
-        pointerTweens.push(xTo.tween, yTo.tween);
+        teamPointerTweens.push(xTo.tween, yTo.tween);
         let box: DOMRect | null = null;
         listen(photo, "pointerenter", () => { box = photo.getBoundingClientRect(); });
         listen(photo, "pointermove", ((event: PointerEvent) => {
@@ -154,9 +175,9 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
         delete ribbons.dataset.running;
         frames.forEach(frame => { frame.removeAttribute("aria-hidden"); frame.inert = false; });
       });
-      cleanups.push(() => pointerTweens.forEach(tween => tween.kill()));
+      cleanups.push(() => teamPointerTweens.forEach(tween => tween.kill()));
       // Pause existing quickTo tweens too; new pointer events are gated above.
-      cleanups.push(subscribeSuspension(() => pointerTweens.forEach(tween => tween.pause())));
+      cleanups.push(subscribeSuspension(() => teamPointerTweens.forEach(tween => tween.pause())));
       document.documentElement.dataset.solMotion = "ready";
       sync();
     });
@@ -175,6 +196,8 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
       suspended = value;
       if (value) suspensionListeners.forEach(listener => listener());
       sync();
+      const hero = root.querySelector<HTMLElement>(".hero-scene");
+      if (hero) hero.dataset.running = String(!value && hero.dataset.visible === "true");
       const ribbons = root.querySelector<HTMLElement>(".space-ribbons");
       if (ribbons) ribbons.dataset.running = String(!value && autoplay.some(item => item.visible && item.animation.repeat() === -1));
     },
