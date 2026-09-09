@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro, Noto_Serif } from "next/font/google";
 import "./globals.css";
+import "./art-direction.css";
 
 const body = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],

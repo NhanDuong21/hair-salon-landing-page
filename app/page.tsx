@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Header } from "@/components/header";
 import { PageMotion } from "@/components/page-motion";
+import { MotionDirector } from "@/components/motion-director";
+import { DesktopPhoto } from "@/components/desktop-photo";
 import {
   BookingButton,
   BookingProvider,
@@ -23,6 +25,7 @@ export default function Home() {
       <div id="dau-trang" />
       <Header />
       <PageMotion />
+      <MotionDirector />
       <main id="noi-dung">
         <section className="hero container" aria-labelledby="hero-title">
           <div className="hero-copy">
@@ -52,6 +55,14 @@ export default function Home() {
             </div>
           </div>
           <figure className="hero-figure">
+            <div className="hero-scene">
+              <div className="hero-layer hero-layer-back" aria-hidden="true">
+                <div className="hero-depth"><div className="hero-arrival"><div className="hero-photo-plane">
+                  <DesktopPhoto src={image("/images/motion/hero-back.webp")} width={560} height={840} eager />
+                </div></div></div>
+              </div>
+              <div className="hero-layer hero-layer-main">
+                <div className="hero-depth"><div className="hero-arrival"><div className="hero-photo-plane">
             <div className="hero-image">
               <Image
                 src={image("/images/hero.webp")}
@@ -61,6 +72,14 @@ export default function Home() {
                 preload
               />
               <span className="image-label">CẮT · TẠO KIỂU · CHĂM SÓC</span>
+            </div>
+                </div></div></div>
+              </div>
+              <div className="hero-layer hero-layer-front" aria-hidden="true">
+                <div className="hero-depth"><div className="hero-arrival"><div className="hero-photo-plane">
+                  <DesktopPhoto src={image("/images/motion/hero-detail.webp")} width={600} height={720} eager />
+                </div></div></div>
+              </div>
             </div>
             <figcaption>
               Chậm lại một chút. Để Sol chăm chút mái tóc bạn.
@@ -175,7 +194,7 @@ export default function Home() {
           className="inspiration-section section"
           aria-labelledby="inspiration-title"
         >
-          <div className="container">
+          <div className="container gallery-pin">
             <div className="section-heading">
               <div>
                 <h2 id="inspiration-title">Cảm hứng cho mái tóc</h2>
@@ -187,6 +206,38 @@ export default function Home() {
                 <p className="small-note">
                   Ảnh tham khảo · Không phải tác phẩm của Sol.
                 </p>
+              </div>
+            </div>
+            <div className="spatial-gallery">
+              <div className="gallery-stage" aria-label="Năm gợi ý kiểu tóc">
+                {[
+                  ["hair-bob.webp", "Bob gọn, nét riêng", "Cắt & tạo dáng", "Tóc bob đen với mái bằng"],
+                  ["hair-waves.webp", "Sóng mềm tự nhiên", "Uốn & tạo kiểu", "Mái tóc nâu uốn sóng nhẹ"],
+                  ["hair-color.webp", "Thêm một sắc màu", "Nhuộm màu", "Mái tóc dài chuyển sắc nâu sáng"],
+                  ["motion/hair-short.webp", "Nét cắt thanh thoát", "Cắt & tạo dáng", "Tóc bob nâu ngắn nhìn nghiêng trên nền trắng"],
+                  ["motion/hair-long.webp", "Dài mềm, tự nhiên", "Chăm sóc & tạo kiểu", "Mái tóc nâu dài dưới ánh sáng tự nhiên"],
+                ].map(([src, title, detail, alt], index) => (
+                  <figure className="gallery-frame" data-title={title} data-detail={detail} key={src}>
+                    <div className="gallery-photo">
+                      <DesktopPhoto src={image(`/images/${src}`)} alt={`${alt}, ảnh tham khảo`} width={760} height={1000} />
+                    </div>
+                    <figcaption><span>{title}</span><span>{detail}</span></figcaption>
+                    <span className="sr-only">Ảnh {index + 1} trong 5</span>
+                  </figure>
+                ))}
+              </div>
+              <div className="gallery-controls">
+                <div className="gallery-current" aria-live="polite" aria-atomic="true">
+                  <strong data-gallery-title>Bob gọn, nét riêng</strong>
+                  <span data-gallery-detail>Cắt & tạo dáng</span>
+                </div>
+                <div className="gallery-navigation" role="group" aria-label="Chuyển ảnh kiểu tóc">
+                  <button type="button" className="icon-button gallery-previous" aria-label="Kiểu tóc trước"><Arrow /></button>
+                  <span className="gallery-count" aria-hidden="true"><span data-gallery-index>01</span> / 05</span>
+                  <button type="button" className="icon-button gallery-next" aria-label="Kiểu tóc tiếp theo"><Arrow /></button>
+                </div>
+                <a href="#khong-gian" className="gallery-skip text-link">Bỏ qua gallery <Arrow /></a>
+                <div className="gallery-progress" aria-hidden="true"><span /></div>
               </div>
             </div>
             <div className="inspiration-grid">
@@ -242,6 +293,24 @@ export default function Home() {
           aria-labelledby="space-title"
         >
           <figure className="space-figure">
+            <div className="space-ribbons" aria-label="Những góc salon tham khảo">
+              {[
+                [["interior.webp", "Góc gội tóc sáng dịu"], ["motion/space-care.webp", "Thao tác gội và chăm sóc tóc"]],
+                [["motion/space-mirror.webp", "Góc gương và ghế tạo kiểu"], ["motion/space-styling.webp", "Thao tác làm tóc trong salon"]],
+              ].map((photos, column) => (
+                <div className={`ribbon-column ribbon-column-${column}`} key={column}>
+                  <div className="ribbon-track">
+                    {[0, 1, 2].map((copy) => (
+                      <div className="ribbon-group" key={copy} aria-hidden={copy > 0 ? true : undefined}>
+                        {photos.map(([src, alt]) => <div className="ribbon-photo" key={src}>
+                          <DesktopPhoto src={image(`/images/${src}`)} alt={copy === 0 ? `${alt}, ảnh stock minh họa` : ""} width={600} height={800} />
+                        </div>)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
             <div className="space-image">
               <Image
                 src={image("/images/interior.webp")}

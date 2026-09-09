@@ -1,5 +1,7 @@
 # Reproduce Sol's licensed photographs
 
+The seven desktop additions from the 2026-09-10 art direction are separate from these eight approved photographs. Their authoritative manifest is `public/images/motion/sources.json`, with one `.webp.json` source/crop record per export. Run `node scripts/prepare-motion-assets.mjs` to reproduce them: it reuses `assets/motion-originals/` where available, otherwise downloads the seven recorded public Pexels sources, then exports center-cropped WebP quality 82 at the recorded dimensions. Original files and the visual contact sheet are local evidence; source links and the export recipe ship in the repository. Pexels permits website use and modification under its [license](https://www.pexels.com/license/); stock/concept disclosures must stay visible. Total new image payload is 311,566 bytes; mobile/touch does not request these media-qualified sources. The personnel set is unchanged.
+
 The committed `public/images/sources.json`, `refine-assets.json`, and `.webp.json` origin sidecars are authoritative. This script does not read the old selection manifest in `salon-assets/sources.json`, change source claims, or download photos.
 
 Run from the project with dependencies installed and FFmpeg available on `PATH`:

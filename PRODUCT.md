@@ -33,6 +33,8 @@ Nghiệm thu qua ứng dụng chạy thật, thao tác trình duyệt và ảnh 
 
 ## Brand Commitments
 
+Art direction 2026-09-10: the user's new brief authorizes richer desktop photo motion, seven sourced additions and changed desktop photo layouts. “Moving photographic frames in space”: layered hero, short pinned 3D gallery, opposing vertical space ribbons. Retain the white/green Sol identity, typography, service truth, demo limits, all existing QA fixes and accepted mobile/booking behavior. Full motion requires a wide screen, fine pointer and no reduced-motion preference, with pause control and capability-gated assets. This explicitly supersedes older motion-only and no-new-image constraints below.
+
 Refine 2026-09-08: người dùng đã chốt hướng Sol hiện tại, chưa nghiệm thu tương tác. Giữ wordmark, màu, serif và bảng dịch vụ; thống nhất ảnh/crop, tiêu đề thao tác trực tiếp, ghi chú concept gọn, nửa cuối trang ngắn hơn. Mobile chỉ có CTA hero khi ở đầu trang; bar xuất hiện sau CTA hero, ẩn ở CTA cuối/menu/booking. Bộ ảnh mobile một ảnh lớn trên hai ảnh nhỏ, caption dưới ảnh. Motion có mục đích và đường reduced motion; nghiệm thu bổ sung video desktop/mobile thật. Không redesign hoặc thêm section/nghiệp vụ.
 
 Tên tạm “Sol. Hair Studio”; lời văn tự nhiên, ngắn gọn, cụ thể. Brief đã chốt nền trắng chủ đạo, chữ gần đen và xanh lá trầm tiết chế; không dark mode, nền kem/vàng chủ đạo, gradient, kính hoặc hiệu ứng phô diễn. Người dùng giao agent tự quyết định chi tiết thiết kế và triển khai, không mở thêm vòng chọn màu/font/bố cục.

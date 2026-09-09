@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { BookingButton, useSiteChrome } from "./booking";
 import { Close } from "./icons";
+import { MotionToggle } from "./motion-director";
 
 const links = [
   ["#dich-vu", "Dịch vụ & giá"],
@@ -54,6 +55,7 @@ export function Header() {
           ))}
         </nav>
         <div className="header-actions">
+          <MotionToggle />
           <BookingButton
             className="button button-primary header-booking"
             arrow={false}

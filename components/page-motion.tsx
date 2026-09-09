@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+const fullMotionQuery = "(min-width: 1100px) and (min-height: 650px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
+
 /** Keep keyboard focus clear of the actual sticky surfaces, at any zoom. */
 export function keepFocusVisible(target: EventTarget | null) {
   if (!(target instanceof HTMLElement) || !target.matches(":focus-visible")) return;
@@ -19,10 +21,12 @@ export function keepFocusVisible(target: EventTarget | null) {
 export function PageMotion() {
   useEffect(() => {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const desktop = matchMedia(fullMotionQuery);
     const animations = new Set<Animation>();
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
+        if (desktop.matches) continue;
         const element = entry.target as HTMLElement;
         observer.unobserve(element);
         element.dataset.revealed = "true";
@@ -36,14 +40,16 @@ export function PageMotion() {
       }
     }, { threshold: 0.12 });
     document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
-    const reduce = () => { if (media.matches) animations.forEach((animation) => animation.cancel()); };
+    const reduce = () => { if (media.matches || desktop.matches) animations.forEach((animation) => animation.cancel()); };
     const focus = (event: FocusEvent) => keepFocusVisible(event.target);
     media.addEventListener("change", reduce);
+    desktop.addEventListener("change", reduce);
     document.addEventListener("focusin", focus);
     return () => {
       observer.disconnect();
       animations.forEach((animation) => animation.cancel());
       media.removeEventListener("change", reduce);
+      desktop.removeEventListener("change", reduce);
       document.removeEventListener("focusin", focus);
     };
   }, []);

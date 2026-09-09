@@ -1,0 +1,54 @@
+# Sol desktop art direction — 2026-09-10
+
+Implemented the three requested desktop scenes while retaining the accepted mobile layout, booking business logic, service content, brand, and demo limits. No commit, push or deployment.
+
+## Implementation
+
+- Hero: visible main photo and immediate left CTA; two secondary photo planes, staggered depth entrance, pointer depth and different scroll rates.
+- Gallery: five photographs, horizontal movement, Y rotation, front/back depth, one 1250px native-scroll pin. Stable central caption, previous/next, count/progress and Skip. No wheel/touch interception or snap. Offstage photographs have no focusable controls and are inert/ARIA-hidden.
+- Space: two opposite 34s/41s vertical loops, restrained perspective and white-fading edges. Copy and booking CTA stay still; this section does not pin.
+- Header pause stops autoplay and pointer reactions. Ribbons stop offscreen and while booking is open; `visibilitychange` also suspends playback.
+- GSAP 3.15.0 is a conditional import; its production scene chunk is 118,739 bytes raw / 45,890 bytes gzip. Full motion requires ≥1100px wide, ≥650px tall, hover/fine pointer, and no reduced-motion preference.
+- Seven new optimized WebP photographs total 311,566 bytes. All sources, photographer names, license links and crop settings are in `public/images/motion/sources.json`. Original eight images, including personnel, are unchanged. Only the five requested GSAP skills were installed under `.agents/skills/`; global configuration was not changed.
+
+## Checks and evidence
+
+Evidence is local in `evidence/art-direction/` (already ignored by this repository).
+
+| Check | Result |
+|---|---|
+| Baseline before UI edits | Full page screenshots at 375, 430, 1280, 1440, 1920; `baseline.json` |
+| Desktop 1280 / 1440 / 1920 × 900 | Three scenes captured; no horizontal overflow, exactly one pin |
+| Mobile touch emulation 375 / 430 × 900 | No pin, no motion controller, zero `/images/motion/` requests before/after scrolling |
+| Tablet touch emulation 768 / 1280 × 900 | Lightweight version, no controller/pin or additional image requests |
+| Mobile layout comparison | Section-height differences below 0.6px and accumulated top differences below 2px, attributable to browser subpixel rasterization; original layout structure/crops preserved |
+| Booking | Opened in gallery and via mobile bar; service → default stylist/date → enabled time → review; explicit no-appointment-created message |
+| Keyboard | Gallery Next, Tab to Skip, Enter, target focus; booking Escape and opener focus return |
+| Pause / resume | Actual ribbon transform samples remain identical while paused and move in opposite directions after resume |
+| Offscreen / booking suspension | Actual ribbon transform samples remain identical during each interval |
+| Reduced motion mid-gallery | Pin removed; all five photos visible, non-inert, with inline transforms/visibility cleared |
+| Repeated 430 → 1440 → 375 → 1440 resize | Zero pins/inline frame transforms on narrow widths; one pin after re-entering desktop |
+| Motion import failure | Blocked the actual scene JS chunk through browser network tools; static five-photo gallery and booking remain usable |
+| Hero pointer after scroll | Different transform samples confirmed after scrolling while the pointer remains inside |
+| Skip after polish | Target receives focus and settles at ~104px below viewport top, clear of the sticky header |
+| Automated checks | ESLint with zero warnings, TypeScript, production static build, all 9 booking tests pass |
+
+The independent Impeccable review used `/root/design_critique` and `/root/technical_critique`. Assessment A finished before detector findings were released to the parent. Initial design score: **25/32**, with heuristics 7 and 9 not applicable to that assessment. CLI detector reported zero findings; live detector reported nine overlay groups, including inherited tiny labels and intentional clipped-caption false positives. No user-visible overlay is promised. Its temporary server and injected changes were removed.
+
+Fixed from critique: reduced-motion visibility restoration; final ARIA/inert restoration after GSAP revert callbacks; hero pointer bounds after scroll; central gallery caption placement; translucent distant-photo overlaps; doubled desktop anchor offsets; small desktop hero photo label. Runtime measurement also caught small caption/counter width changes while styles change; both now reserve stable width. The confirmation round checked those fixes and the required viewport regressions.
+
+## Measured performance and limits
+
+Production local preview in the Codex Chromium browser, 1440×900, without CPU/network throttling: a recorded navigation had **CLS 0**, **LCP 244ms**, and one **85ms** long task during loading. A later pass detected CLS ~0.002 associated with changing caption/counter widths and programmatic repositioning; widths were fixed. The final measured 3-second gallery scroll, starting after the pin was positioned, had **CLS 0**, **no long tasks**, and 300 requestAnimationFrame intervals: median **10.0ms**, p95 **10.1ms**, maximum **10.2ms**, zero above 33.4ms. Earlier raw samples are retained in `browser-qa.json`. These are browser callback intervals on this host, not proof of compositor FPS or results on other devices. The screenshot does not establish motion smoothness; video and separate timing samples are supplied.
+
+**Not verified:** Safari/Firefox, physical iPhone/Android/tablet hardware, low-end GPU/CPU or constrained network. A real hidden-tab transition could not be induced: opening/foregrounding another in-app tab still reported `document.visibilityState === 'visible'`. The visibility listener is implemented and source-reviewed, but a true browser-hidden transition remains a manual check.
+
+## Deliverables
+
+- `sol-desktop-motion.mp4`: ~28-second actual browser screencast, including hero pointer movement, gallery forward/reverse and opposing ribbons. Source frame timestamps retained in `final-video-frames.json`; capture/encoding cadence is not a 60fps claim.
+- `final-hero-{1280,1440,1920}.png`, `final-gallery-{1280,1440,1920}.png`, `final-space-{1280,1440,1920}.png`.
+- `final-mobile-{hero,gallery,space}-{375,430}.png`, `final-mobile-booking-430.png`.
+- `mobile-comparison-{375,430}.png`: baseline and final mobile hero side by side.
+- `browser-qa.json`, `assessment-a.md`, `assessment-b.md`, and the initial/final video frame records.
+
+Early raw-CDP PNGs cropped the right edge at host display scaling; use the `final-*` native screenshot captures for handoff. Final screenshots wait for two animation frames after positioning. All temporary network blocks, media emulation, and viewport overrides are cleared after testing.
