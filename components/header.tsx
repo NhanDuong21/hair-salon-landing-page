@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { BookingButton } from "./booking";
+import { useEffect, useRef } from "react";
+import { BookingButton, useSiteChrome } from "./booking";
 import { Close } from "./icons";
 
 const links = [
@@ -11,14 +11,14 @@ const links = [
   ["#lien-he", "Liên hệ"],
 ];
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const { menuOpen: open, setMenuOpen: setOpen } = useSiteChrome();
   const button = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     function escape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setOpen(false);
-        button.current?.focus();
+        button.current?.focus({ preventScroll: true });
       }
     }
     const desktop = matchMedia("(min-width: 900px)");
@@ -31,13 +31,14 @@ export function Header() {
       document.removeEventListener("keydown", escape);
       desktop.removeEventListener("change", resize);
     };
-  }, [open]);
+  }, [open, setOpen]);
   return (
-    <header className="site-header">
+    <header className="site-header" data-menu-open={open}>
       <div className="container header-inner">
         <a
           href="#dau-trang"
           className="brand"
+          translate="no"
           aria-label="Sol. Hair Studio — về đầu trang"
         >
           <span className="wordmark">

@@ -109,21 +109,21 @@ export const faqs = [
   {
     question: "Chưa biết chọn dịch vụ nào thì sao?",
     answer:
-      "Bạn có thể bắt đầu với “Cắt & tạo dáng” để thử luồng đặt lịch. Ở một salon thực tế, hãy trao đổi mong muốn và tình trạng tóc trước khi chốt dịch vụ. Đây là hướng dẫn minh họa.",
+      "Bạn có thể thử “Cắt & tạo dáng” để khám phá luồng đặt lịch. Khi đến một salon thực tế, hãy trao đổi mong muốn và tình trạng tóc trước khi chốt dịch vụ.",
   },
   {
     question: "Có cần chọn người thực hiện không?",
     answer:
-      "Không bắt buộc. Chọn “Để salon sắp xếp” nếu bạn chưa có người phù hợp. Nhân sự và lịch hiển thị ở đây đều là dữ liệu mẫu.",
+      "Không bắt buộc. Chọn “Để salon sắp xếp” nếu bạn chưa có người phù hợp; demo sẽ dùng lựa chọn đó trong phần xem lại.",
   },
   {
     question: "Giá “từ” và thời lượng được hiểu thế nào?",
     answer:
-      "Giá khởi điểm có thể thay đổi theo độ dài, nền tóc và kỹ thuật. Thời lượng là ước tính. Theo chính sách minh họa, salon sẽ trao đổi giá và thời gian trước khi thực hiện.",
+      "Giá khởi điểm tùy độ dài, nền tóc và kỹ thuật. Thời lượng là ước tính; cần trao đổi chi tiết trước khi thực hiện.",
   },
   {
     question: "Tôi có thể đổi hoặc hủy lịch không?",
     answer:
-      "Trong demo, bạn có thể quay lại để sửa lựa chọn hoặc đóng khung bất cứ lúc nào; chưa có lịch nào được tạo. Chính sách đổi hoặc hủy lịch thực tế sẽ được bổ sung khi salon vận hành.",
+      "Bạn có thể quay lại sửa lựa chọn hoặc đóng demo bất cứ lúc nào. Chưa có lịch hẹn nào được tạo; bản concept chưa có chính sách đổi/hủy thực tế.",
   },
 ];

@@ -1,0 +1,66 @@
+{
+  "checkedOn": "2026-09-08",
+  "purpose": "Focused photography refinement within Sol's approved white, green and dark-ink identity.",
+  "treatment": "Licensed stock selection, framing and WebP optimization only. No blanket color filters, generated people, identity assertions or endorsement claims.",
+  "inspection": "All original candidates and final recommended crops opened visually. Portrait and scene contact sheets inspected together.",
+  "contactSheets": [
+    "C:/Users/LENOVO/.codex/visualizations/2026/09/07/01a07c7b-db06-7033-831b-290b5206201c/refine-assets/portrait-contact.jpg",
+    "C:/Users/LENOVO/.codex/visualizations/2026/09/07/01a07c7b-db06-7033-831b-290b5206201c/refine-assets/scene-contact.jpg"
+  ],
+  "images": [
+    {
+      "file": "hero.webp",
+      "photoId": 29498301,
+      "change": "Retain the approved photograph; enlarge client hair and the styling gesture while reducing bright foreground.",
+      "originalSize": [4160, 6240],
+      "cropXYWH": [730, 1110, 2400, 2700],
+      "outputSize": [1400, 1575],
+      "desktopObjectPosition": "50% 60%",
+      "mobileObjectPosition": "48% 57%"
+    },
+    {
+      "file": "interior.webp",
+      "photoId": "Ui6DZ9A1eXU",
+      "change": "Warm white salon corner with a washing chair, basin, natural material and greenery; closer to the hero's quiet light.",
+      "originalSize": [3787, 5681],
+      "cropXYWH": [100, 400, 3600, 4050],
+      "outputSize": [1200, 1350],
+      "desktopObjectPosition": "50% 50%",
+      "mobileObjectPosition": "52% 50%",
+      "suggestedAltVi": "Góc salon sáng với ghế gội tóc, bồn rửa và cây xanh; ảnh minh họa"
+    },
+    {
+      "file": "stylist-an.webp",
+      "photoId": 10209448,
+      "change": "Soft light, warm taupe studio backdrop and neutral clothing align with the portrait set.",
+      "originalSize": [5304, 7426],
+      "cropXYWH": [0, 350, 5304, 6364],
+      "outputSize": [900, 1080],
+      "desktopObjectPosition": "50% 30%",
+      "mobileObjectPosition": "58% 15%"
+    },
+    {
+      "file": "stylist-linh.webp",
+      "photoId": 7760229,
+      "change": "A straighter, less tilted pose from the same source series as the earlier Linh illustration; framing aligns with the new portraits.",
+      "originalSize": [4480, 6720],
+      "cropXYWH": [0, 1000, 4480, 5376],
+      "outputSize": [900, 1080],
+      "desktopObjectPosition": "50% 40%",
+      "mobileObjectPosition": "48% 28%"
+    },
+    {
+      "file": "stylist-minh.webp",
+      "photoId": 10204120,
+      "change": "Warm taupe studio portrait with matching soft side light and close head-and-shoulders distance.",
+      "originalSize": [5082, 6353],
+      "transform": "Scale to 900x1125, then crop 900x1080 at x0 y0.",
+      "outputSize": [900, 1080],
+      "desktopObjectPosition": "50% 10%",
+      "mobileObjectPosition": "50% 5%"
+    }
+  ],
+  "preservedFiles": ["hair-bob.webp", "hair-waves.webp", "hair-color.webp"],
+  "provenance": "Source and license records in sources.json; each replaced WebP processed with Impeccable embed-prompt, which stores this format's origin in its adjacent .webp.json sidecar.",
+  "notes": "Object positions refer to the exported files, not uncropped originals. Inspect live responsive boxes before accepting final display crops. The three portraits deliberately share a calm editorial expression; fictional labels remain necessary. No claim is made that the photographs share a location, session, model nationality, or actual Sol employment."
+}

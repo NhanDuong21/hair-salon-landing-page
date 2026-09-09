@@ -1,9 +1,9 @@
 {
-  "checkedOn": "2026-09-07",
+  "checkedOn": "2026-09-08",
   "license": {
     "name": "Pexels License",
     "url": "https://www.pexels.com/license/",
-    "verification": "Official photo pages each show Free to use and link to the Pexels License. Download URLs were taken from the official photo page Free download link, not fabricated.",
+    "verification": "Official Pexels License checked on 2026-09-08. Pexels assets were obtained from official photo-page download links or an explicitly linked related-photo download. See each source record. The interior now uses the separate Unsplash License.",
     "summary": "Pexels permits free use and modification on websites, with attribution optional. It prohibits implying endorsement by depicted people or brands, offensive depictions of identifiable people, stock-platform redistribution, and use as a trademark. These are free Pexels stock photos, not paid Unsplash+.",
     "usageNotes": "Label personnel and photos as fictional illustrations. Do not claim these depict real salon staff, clientele, premises, or before-and-after results. The license does not turn the models into actual staff or endorsers."
   },
@@ -14,15 +14,17 @@
       "source": "https://www.pexels.com/photo/woman-getting-hair-styled-at-salon-29498301/",
       "license": "https://www.pexels.com/license/",
       "photoId": 29498301,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/interior.webp",
-      "photographer": "Max Vakhtbovych",
-      "source": "https://www.pexels.com/photo/photo-of-a-hair-salon-7750115/",
-      "license": "https://www.pexels.com/license/",
-      "photoId": 7750115,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "photographer": "Daniel",
+      "source": "https://unsplash.com/photos/a-room-with-a-chair-sink-and-a-plant-in-it-Ui6DZ9A1eXU",
+      "license": "https://unsplash.com/license",
+      "photoId": "Ui6DZ9A1eXU",
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Unsplash License"
     },
     {
       "file": "/images/hair-bob.webp",
@@ -30,7 +32,8 @@
       "source": "https://www.pexels.com/photo/a-woman-looking-at-the-camera-4927365/",
       "license": "https://www.pexels.com/license/",
       "photoId": 4927365,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/hair-waves.webp",
@@ -38,7 +41,8 @@
       "source": "https://www.pexels.com/photo/portrait-of-woman-with-brown-hair-19115784/",
       "license": "https://www.pexels.com/license/",
       "photoId": 19115784,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/hair-color.webp",
@@ -46,31 +50,52 @@
       "source": "https://www.pexels.com/photo/woman-with-brown-hair-18939542/",
       "license": "https://www.pexels.com/license/",
       "photoId": 18939542,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/stylist-an.webp",
-      "photographer": "Kindel Media",
-      "source": "https://www.pexels.com/photo/close-up-shot-of-a-pretty-woman-in-beige-button-up-shirt-smiling-7651642/",
+      "photographer": "cottonbro studio",
+      "source": "https://www.pexels.com/photo/portrait-of-a-woman-in-brown-shirt-10209448/",
       "license": "https://www.pexels.com/license/",
-      "photoId": 7651642,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "photoId": 10209448,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/stylist-linh.webp",
       "photographer": "cottonbro studio",
-      "source": "https://www.pexels.com/photo/woman-in-beige-knit-sweater-smiling-7760240/",
+      "source": "https://www.pexels.com/photo/woman-in-knitter-sweater-posing-7760229/",
       "license": "https://www.pexels.com/license/",
-      "photoId": 7760240,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "photoId": 7760229,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "licenseName": "Pexels License"
     },
     {
       "file": "/images/stylist-minh.webp",
-      "photographer": "Enson",
-      "source": "https://www.pexels.com/photo/young-man-smiling-in-white-shirt-studio-portrait-33971228/",
+      "photographer": "cottonbro studio",
+      "source": "https://images.pexels.com/photos/10204120/pexels-photo-10204120.jpeg?cs=srgb&dl=pexels-cottonbro-10204120.jpg&fm=jpg",
       "license": "https://www.pexels.com/license/",
-      "photoId": 33971228,
-      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol."
+      "photoId": 10204120,
+      "use": "Ảnh stock minh họa; không phải nhân sự, khách hàng, tác phẩm hay không gian thật của Sol.",
+      "discoveryPage": "https://www.pexels.com/photo/portrait-of-man-10204122/",
+      "verification": "Source download and thumbnail explicitly listed in More like this on the official cottonbro studio photo page. The distinct photo ID is 10204120.",
+      "licenseName": "Pexels License"
+    }
+  ],
+  "licenses": [
+    {
+      "name": "Pexels License",
+      "url": "https://www.pexels.com/license/",
+      "verification": "Official Pexels License checked on 2026-09-08. Pexels assets were obtained from official photo-page download links or an explicitly linked related-photo download. See each source record. The interior now uses the separate Unsplash License.",
+      "summary": "Pexels permits free use and modification on websites, with attribution optional. It prohibits implying endorsement by depicted people or brands, offensive depictions of identifiable people, stock-platform redistribution, and use as a trademark. These are free Pexels stock photos, not paid Unsplash+.",
+      "usageNotes": "Label personnel and photos as fictional illustrations. Do not claim these depict real salon staff, clientele, premises, or before-and-after results. The license does not turn the models into actual staff or endorsers."
+    },
+    {
+      "name": "Unsplash License",
+      "url": "https://unsplash.com/license",
+      "summary": "Free commercial and non-commercial website use and modification. Do not resell unmodified images or compile a competing image service.",
+      "verification": "Official photo page identifies Ui6DZ9A1eXU as free under the Unsplash License, checked on 2026-09-08; not Unsplash+."
     }
   ]
 }

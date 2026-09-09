@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Header } from "@/components/header";
+import { PageMotion } from "@/components/page-motion";
 import {
   BookingButton,
   BookingProvider,
@@ -21,12 +22,14 @@ export default function Home() {
       </a>
       <div id="dau-trang" />
       <Header />
+      <PageMotion />
       <main id="noi-dung">
         <section className="hero container" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="hero-label">
               <span />
               Sol. Hair Studio
+              <span className="concept-badge">Bản concept</span>
             </p>
             <h1 id="hero-title">
               Tóc đẹp,
@@ -37,7 +40,7 @@ export default function Home() {
             </h1>
             <p className="hero-description">{salon.description}</p>
             <div className="hero-actions">
-              <BookingButton />
+              <BookingButton id="hero-booking" />
               <a className="text-link" href="#dich-vu">
                 Xem dịch vụ & giá
                 <Arrow />
@@ -74,19 +77,13 @@ export default function Home() {
           <div className="container">
             <div className="section-heading">
               <div>
-                <h2 id="services-title">
-                  Một lựa chọn vừa vặn
-                  <br />
-                  <em>với mái tóc bạn.</em>
-                </h2>
+                <h2 id="services-title">Dịch vụ & giá</h2>
               </div>
               <div className="section-intro">
                 <p>
-                  Từ một lần cắt gọn đến một màu tóc mới.
-                  <br />
-                  Xem giá, dành thời gian, rồi chọn điều bạn cần.
+                  Chọn điều vừa vặn với mái tóc bạn.
                 </p>
-                <p className="small-note">Dịch vụ & giá minh họa</p>
+                <p className="small-note">Bảng giá minh họa</p>
               </div>
             </div>
             <div className="service-table">
@@ -133,29 +130,21 @@ export default function Home() {
         >
           <div className="section-heading">
             <div>
-              <h2 id="team-title">
-                Gặp người sẽ
-                <br />
-                <em>chăm chút tóc bạn.</em>
-              </h2>
+              <h2 id="team-title">Đội ngũ tại Sol</h2>
             </div>
             <div className="section-intro">
               <p>
-                Mỗi người một thế mạnh.
-                <br />
-                Cùng bắt đầu bằng việc lắng nghe bạn.
+                Ba cá tính, cùng bắt đầu bằng việc lắng nghe.
               </p>
               <p className="small-note">
-                Nhân sự giả lập. Ảnh chân dung minh họa,
-                <br />
-                không phải nhân viên thực tế của Sol.
+                Nhân sự giả lập · Ảnh chân dung minh họa.
               </p>
             </div>
           </div>
           <div className="team-grid">
             {stylists.map((stylist, index) => (
               <article className="team-member" key={stylist.id}>
-                <div className={`team-photo team-photo-${index}`}>
+                <div className={`team-photo team-photo-${index}`} data-reveal={index}>
                   <Image
                     src={stylist.image}
                     alt={`Ảnh stock minh họa cho nhân sự giả lập ${stylist.name}`}
@@ -189,31 +178,25 @@ export default function Home() {
           <div className="container">
             <div className="section-heading">
               <div>
-                <h2 id="inspiration-title">
-                  Một chút cảm hứng.
-                  <br />
-                  <em>Một phiên bản rất bạn.</em>
-                </h2>
+                <h2 id="inspiration-title">Cảm hứng cho mái tóc</h2>
               </div>
               <div className="section-intro">
                 <p>
                   Gọn gàng, mềm mại hay thêm chút sắc màu?
-                  <br />
-                  Bắt đầu từ một kiểu tóc khiến bạn thấy thích.
                 </p>
                 <p className="small-note">
-                  Ảnh gợi ý phong cách, không phải tác phẩm của Sol.
+                  Ảnh tham khảo · Không phải tác phẩm của Sol.
                 </p>
               </div>
             </div>
             <div className="inspiration-grid">
-              <figure className="style-figure style-bob">
+              <figure className="style-figure style-bob" data-reveal="0">
                 <div className="style-image">
                   <Image
                     src={image("/images/hair-bob.webp")}
                     alt="Tóc bob đen với mái bằng, ảnh gợi ý phong cách"
                     fill
-                    sizes="(max-width: 599px) 55vw, 40vw"
+                    sizes="(max-width: 767px) 100vw, 40vw"
                   />
                 </div>
                 <figcaption>
@@ -221,13 +204,13 @@ export default function Home() {
                   <span>Cắt & tạo dáng</span>
                 </figcaption>
               </figure>
-              <figure className="style-figure style-waves">
+              <figure className="style-figure style-waves" data-reveal="1">
                 <div className="style-image">
                   <Image
                     src={image("/images/hair-waves.webp")}
                     alt="Mái tóc nâu uốn sóng nhẹ dưới ánh sáng cửa sổ, ảnh gợi ý"
                     fill
-                    sizes="(max-width: 599px) 45vw, 30vw"
+                    sizes="(max-width: 767px) 50vw, 30vw"
                   />
                 </div>
                 <figcaption>
@@ -235,13 +218,13 @@ export default function Home() {
                   <span>Uốn & tạo kiểu</span>
                 </figcaption>
               </figure>
-              <figure className="style-figure style-color">
+              <figure className="style-figure style-color" data-reveal="2">
                 <div className="style-image">
                   <Image
                     src={image("/images/hair-color.webp")}
                     alt="Mái tóc dài chuyển sắc nâu sáng, ảnh gợi ý màu tóc"
                     fill
-                    sizes="(max-width: 599px) 55vw, 30vw"
+                    sizes="(max-width: 767px) 50vw, 30vw"
                   />
                 </div>
                 <figcaption>
@@ -262,13 +245,13 @@ export default function Home() {
             <div className="space-image">
               <Image
                 src={image("/images/interior.webp")}
-                alt="Không gian salon với gương tròn, ghế làm tóc và cây xanh; ảnh stock minh họa"
+                alt="Góc gội tóc sáng dịu với ghế ngồi và cây xanh; ảnh stock minh họa"
                 fill
                 sizes="(max-width: 767px) 100vw, 55vw"
               />
             </div>
             <figcaption>
-              Hình dung không gian tại Sol · Ảnh stock minh họa
+              Không gian tham khảo · Ảnh stock
             </figcaption>
           </figure>
           <div className="space-copy">
@@ -304,31 +287,28 @@ export default function Home() {
           <div className="container visit-grid">
             <div className="visit-copy">
               <h2 id="visit-title">
-                Hẹn bạn <em>ở Sol.</em>
+                Hẹn bạn ở Sol.
               </h2>
               <p className="visit-intro">
-                Một vài điều để bạn dễ sắp xếp
-                <br />
-                trước khi ghé tiệm.
+                Một vài thông tin để bạn dễ sắp xếp.
               </p>
               <dl className="visit-details">
                 <div>
-                  <dt>Giờ mở cửa mẫu</dt>
+                  <dt>Giờ mở cửa</dt>
                   <dd>
                     {salon.hours}
                     <span>Thứ Hai đến Chủ Nhật</span>
                   </dd>
                 </div>
                 <div>
-                  <dt>Khu vực minh họa</dt>
+                  <dt>Khu vực dự kiến</dt>
                   <dd>
                     {salon.area}
-                    <span>Chưa có địa chỉ salon thực tế.</span>
                   </dd>
                 </div>
               </dl>
               <p className="small-note">
-                Thông tin vận hành minh họa cho bản concept.
+                Địa điểm và giờ minh họa · Chưa có salon thực tế.
               </p>
             </div>
             <div className="faq">
@@ -348,18 +328,16 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="final-cta container" aria-labelledby="final-title">
+        <section className="final-cta container" id="dat-lich" aria-labelledby="final-title">
           <div>
             <h2 id="final-title">
-              Một mái tóc mới.
-              <br />
-              <em>Bắt đầu bằng một lịch hẹn.</em>
+              Một lịch hẹn dành cho bạn.
             </h2>
             <p>Dành một chút thời gian cho mình, cùng Sol.</p>
           </div>
           <div className="final-action">
             <BookingButton />
-            <span>Trải nghiệm demo · Chưa tạo lịch hẹn thật</span>
+            <span>Lịch mẫu · Không giữ chỗ</span>
           </div>
         </section>
       </main>
@@ -368,6 +346,7 @@ export default function Home() {
           <a
             href="#dau-trang"
             className="brand"
+            translate="no"
             aria-label="Sol. Hair Studio — về đầu trang"
           >
             <span className="wordmark">
@@ -376,8 +355,8 @@ export default function Home() {
             <span className="brand-label">HAIR STUDIO</span>
           </a>
           <p>
-            Bản thiết kế thử nghiệm. Thương hiệu, dịch vụ và thông tin
-            <br className="desktop-break" /> vận hành mang tính minh họa.
+            Bản thiết kế thử nghiệm. Thương hiệu, dịch vụ và thông tin vận hành mang tính minh họa.
+            Ảnh stock không phải nhân sự, tác phẩm hay mặt bằng thật của Sol.
           </p>
           <a className="footer-top" href="#dau-trang">
             Về đầu trang

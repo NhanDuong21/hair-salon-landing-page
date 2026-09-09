@@ -17,13 +17,24 @@ import {
   type BookingPreset,
 } from "@/lib/salon";
 import { Arrow, Check, Close } from "./icons";
+import { keepFocusVisible } from "./page-motion";
 
 const BookingContext = createContext<(preset?: BookingPreset) => void>(
   () => {},
 );
+const SiteChromeContext = createContext<{
+  menuOpen: boolean;
+  bookingOpen: boolean;
+  setMenuOpen: (value: boolean) => void;
+}>({ menuOpen: false, bookingOpen: false, setMenuOpen: () => {} });
+
+export function useSiteChrome() {
+  return useContext(SiteChromeContext);
+}
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [preset, setPreset] = useState<BookingPreset | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const opener = useRef<HTMLElement | null>(null);
   function open(next: BookingPreset = {}) {
     opener.current =
@@ -31,15 +42,29 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         ? document.activeElement
         : null;
     setPreset(next);
+    setMenuOpen(false);
   }
   function close() {
     setPreset(null);
-    opener.current?.focus({ preventScroll: true });
   }
+  useEffect(() => {
+    if (preset !== null || !opener.current) return;
+    // Wait until React has removed the bar's inert attribute before focusing it.
+    const frame = requestAnimationFrame(() => {
+      const target = opener.current;
+      if (target?.isConnected) {
+        target.focus({ preventScroll: true });
+        keepFocusVisible(target);
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [preset]);
   return (
     <BookingContext value={open}>
+      <SiteChromeContext value={{ menuOpen, setMenuOpen, bookingOpen: preset !== null }}>
       {children}
       {preset ? <BookingDialog preset={preset} onClose={close} /> : null}
+      </SiteChromeContext>
     </BookingContext>
   );
 }
@@ -50,15 +75,18 @@ export function BookingButton({
   serviceId,
   stylistId,
   arrow = true,
+  id,
 }: BookingPreset & {
   children?: ReactNode;
   className?: string;
   arrow?: boolean;
+  id?: string;
 }) {
   const open = useContext(BookingContext);
   return (
     <button
       type="button"
+      id={id}
       className={className}
       onClick={() => open({ serviceId, stylistId })}
     >
@@ -78,6 +106,9 @@ function BookingDialog({
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const content = useRef<HTMLDivElement>(null);
+  const closing = useRef(false);
+  const closeAnimation = useRef<Animation | null>(null);
+  const [isClosing, setClosing] = useState(false);
   const [dates] = useState(() => demoDates());
   const [state, dispatch] = useReducer(bookingReducer, {
     serviceId: preset.serviceId ?? "",
@@ -97,9 +128,21 @@ function BookingDialog({
     "Lịch hẹn mẫu của bạn",
   ];
   function closeDialog() {
-    // Release the native modal's inert background before restoring trigger focus.
-    dialog.current?.close();
-    onClose();
+    const el = dialog.current;
+    if (!el || closing.current) return;
+    closing.current = true;
+    setClosing(true);
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.getAnimations().forEach((animation) => animation.cancel());
+    closeAnimation.current = el.animate(
+      [{ opacity: 1, transform: "none" }, { opacity: 0, transform: reduce ? "none" : "translateY(8px) scale(.99)" }],
+      { duration: reduce ? 80 : 160, easing: "ease-out", fill: "forwards" },
+    );
+    void closeAnimation.current.finished.then(() => {
+      // Release native inertness before restoring focus to the opener.
+      el.close();
+      onClose();
+    }).catch(() => {});
   }
 
   useEffect(() => {
@@ -108,6 +151,7 @@ function BookingDialog({
     el.showModal();
     document.body.style.overflow = "hidden";
     return () => {
+      closeAnimation.current?.cancel();
       el.close();
       document.body.style.overflow = originalOverflow;
     };
@@ -121,6 +165,7 @@ function BookingDialog({
     <dialog
       ref={dialog}
       className="booking-dialog"
+      data-closing={isClosing}
       aria-labelledby="booking-title"
       aria-describedby="booking-note"
       onKeyDown={(event) => {
@@ -198,7 +243,7 @@ function BookingDialog({
             </li>
           ))}
         </ol>
-        <div className="dialog-content" ref={content}>
+        <div className="dialog-content" ref={content} key={state.step}>
           <h2 id="booking-title" ref={heading} tabIndex={-1}>
             {titles[state.step - 1]}
           </h2>
@@ -421,12 +466,30 @@ function BookingDialog({
 }
 
 export function MobileBookingBar() {
+  const { menuOpen, bookingOpen } = useSiteChrome();
+  const [pastHero, setPastHero] = useState(false);
+  const [atFinal, setAtFinal] = useState(false);
+  const visible = pastHero && !atFinal && !menuOpen && !bookingOpen;
+  useEffect(() => {
+    const hero = document.getElementById("hero-booking");
+    const final = document.getElementById("dat-lich");
+    if (!hero || !final) return;
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      setPastHero(!entry.isIntersecting && entry.boundingClientRect.bottom <= 76);
+    }, { rootMargin: "-76px 0px 0px" });
+    const finalObserver = new IntersectionObserver(([entry]) => setAtFinal(entry.isIntersecting), {
+      rootMargin: "0px 0px 76px",
+    });
+    heroObserver.observe(hero);
+    finalObserver.observe(final);
+    return () => { heroObserver.disconnect(); finalObserver.disconnect(); };
+  }, []);
+  useEffect(() => {
+    if (visible) keepFocusVisible(document.activeElement);
+  }, [visible]);
   return (
-    <div className="mobile-booking-bar">
-      <div>
-        <strong>Một chút thời gian cho bạn.</strong>
-        <span>Chọn lịch hẹn mẫu cùng Sol</span>
-      </div>
+    <div className="mobile-booking-bar" data-visible={visible} inert={!visible} aria-hidden={!visible}>
+      <span>Lịch hẹn mẫu tại Sol</span>
       <BookingButton arrow={false} />
     </div>
   );
