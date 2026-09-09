@@ -4,6 +4,8 @@ import {
   bookingReducer,
   demoDates,
   demoSlots,
+  dateChoiceLabel,
+  timeRangeLabel,
   type BookingState,
 } from "../lib/booking";
 import { services, stylists } from "../lib/salon";
@@ -15,6 +17,16 @@ const initial: BookingState = {
   time: "",
   step: 1,
 };
+test("date choices keep weekday and day/month separate, including Sunday", () => {
+  assert.deepEqual(dateChoiceLabel("2026-09-13"), { weekday: "CN", dayMonth: "13/09" });
+  assert.deepEqual(dateChoiceLabel("2027-01-01"), { weekday: "Thứ 6", dayMonth: "01/01" });
+});
+test("review time range adds the chosen service duration across hour boundaries", () => {
+  assert.equal(timeRangeLabel("09:00", 45), "09:00–09:45");
+  assert.equal(timeRangeLabel("10:30", 75), "10:30–11:45");
+  assert.equal(timeRangeLabel("16:30", 150), "16:30–19:00");
+  assert.equal(timeRangeLabel("19:00", 60), "19:00–20:00");
+});
 test("dates start tomorrow in Vietnam, including year rollover", () => {
   assert.deepEqual(demoDates(new Date("2026-12-31T16:59:00Z")), [
     "2027-01-01",

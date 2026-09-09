@@ -757,6 +757,7 @@ details[open] .faq-plus span:last-child {
   padding: 0;
   border: 0;
   width: min(620px, calc(100% - 32px));
+  height: min(850px, calc(100dvh - 48px));
   max-height: min(850px, calc(100dvh - 48px));
   border-radius: 12px;
   color: var(--ink);
@@ -775,6 +776,8 @@ details[open] .faq-plus span:last-child {
 .dialog-shell {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
   max-height: inherit;
 }
 .dialog-header {
@@ -835,7 +838,10 @@ details[open] .faq-plus span:last-child {
   font-weight: 600;
 }
 .dialog-content {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   overscroll-behavior: contain;
   padding: 16px 30px 26px;
   scrollbar-color: #b5c5b9 transparent;
@@ -1014,6 +1020,14 @@ input[type="radio"] {
 .date-choice span {
   font-size: 10px;
 }
+.date-choice { min-height: 64px; }
+.date-choice .date-label {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  line-height: 1.5;
+}
+.date-label > span { white-space: nowrap; }
 .time-options {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -1471,6 +1485,7 @@ input[type="radio"] {
   }
   .booking-dialog {
     width: 100%;
+    height: min(850px, calc(100dvh - 12px));
     max-height: calc(100dvh - 12px);
     margin: auto 0 0;
     border-radius: 14px 14px 0 0;

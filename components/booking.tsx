@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { bookingReducer, dateLabel, demoDates, demoSlots } from "@/lib/booking";
+import { bookingReducer, dateChoiceLabel, dateLabel, demoDates, demoSlots, timeRangeLabel } from "@/lib/booking";
 import {
   services,
   stylists,
@@ -318,17 +318,24 @@ function BookingDialog({
               <fieldset>
                 <legend>Ngày hẹn mẫu</legend>
                 <div className="date-options">
-                  {dates.map((date) => (
-                    <label className="choice date-choice" key={date}>
-                      <input
-                        type="radio"
-                        name="booking-date"
-                        checked={state.date === date}
-                        onChange={() => dispatch({ type: "date", value: date })}
-                      />
-                      <span>{dateLabel(date, true)}</span>
-                    </label>
-                  ))}
+                  {dates.map((date) => {
+                    const label = dateChoiceLabel(date);
+                    return (
+                      <label className="choice date-choice" key={date}>
+                        <input
+                          type="radio"
+                          name="booking-date"
+                          aria-label={dateLabel(date)}
+                          checked={state.date === date}
+                          onChange={() => dispatch({ type: "date", value: date })}
+                        />
+                        <span className="date-label" aria-hidden="true">
+                          <span>{label.weekday}</span>
+                          <span>{label.dayMonth}</span>
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
                 <p className="field-hint">
                   Giờ Việt Nam (GMT+7) · Ngày luôn được cập nhật khi mở demo.
@@ -389,9 +396,9 @@ function BookingDialog({
                   <dd>{dateLabel(state.date)}</dd>
                 </div>
                 <div>
-                  <dt>Giờ bắt đầu</dt>
+                  <dt>Thời gian dự kiến</dt>
                   <dd>
-                    {state.time} <span>(giờ Việt Nam)</span>
+                    {timeRangeLabel(state.time, service.duration)} <span>(giờ Việt Nam)</span>
                   </dd>
                 </div>
                 <div>
@@ -435,7 +442,7 @@ function BookingDialog({
               Quay lại
             </button>
           ) : (
-            <span className="footer-hint">Chọn 1 dịch vụ</span>
+            <span className="footer-hint">{service ? "Đã chọn 1 dịch vụ" : "Chọn 1 dịch vụ"}</span>
           )}
           {state.step < 3 ? (
             <button

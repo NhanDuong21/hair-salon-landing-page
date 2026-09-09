@@ -25,6 +25,25 @@ export function dateLabel(date: string, short = false): string {
   }).format(new Date(`${date}T12:00:00+07:00`));
 }
 
+export function dateChoiceLabel(date: string) {
+  const value = new Date(`${date}T12:00:00+07:00`);
+  const parts = new Intl.DateTimeFormat("vi-VN", {
+    timeZone: zone, day: "2-digit", month: "2-digit",
+  }).formatToParts(value);
+  const part = (type: string) => parts.find((item) => item.type === type)!.value;
+  return {
+    weekday: new Intl.DateTimeFormat("vi-VN", { timeZone: zone, weekday: "short" }).format(value),
+    dayMonth: `${part("day")}/${part("month")}`,
+  };
+}
+
+export function timeRangeLabel(start: string, duration: number): string {
+  const [hours, minutes] = start.split(":").map(Number);
+  const end = hours * 60 + minutes + duration;
+  const endLabel = `${String(Math.floor(end / 60)).padStart(2, "0")}:${String(end % 60).padStart(2, "0")}`;
+  return `${start}–${endLabel}`;
+}
+
 // A deterministic display fixture, not a real availability/overlap scheduler.
 export function demoSlots(
   serviceId: ServiceId,
