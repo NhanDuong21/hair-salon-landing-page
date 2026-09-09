@@ -71,3 +71,8 @@ Manifest: `public/images/sources.json`; crop và object-position từng breakpoi
 Font **Be Vietnam Pro** và **Noto Serif**, [Google Fonts](https://fonts.google.com/), SIL Open Font License; hỗ trợ tiếng Việt, được `next/font` tự host cùng ứng dụng.
 
 Favicon Sol do người dùng bổ sung và xác nhận dùng trong phiên làm việc. Giữ bản gốc tại `assets/brand/sol-original.png`; `app/icon.png` là bản tối ưu 128px, `app/favicon.ico` là bản dự phòng cùng hình ảnh. Không áp dụng giấy phép Pexels cho logo này.
+
+
+
+
+
