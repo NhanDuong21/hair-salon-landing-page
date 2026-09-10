@@ -1,5 +1,5 @@
 /* Desktop photography is additive. Existing mobile/tablet rules stay intact. */
-.hero-layer-back, .hero-layer-front, .spatial-gallery, .space-ribbons, .motion-toggle { display: none; }
+.hero-layer-back, .hero-layer-front, .spatial-gallery, .space-ribbons { display: none; }
 
 @media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
   section[id] { scroll-margin-top: 0; }
@@ -74,12 +74,6 @@
   .team-member { perspective: 900px; }
 }
 
-@media (min-width: 1100px) and (min-height: 650px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .motion-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 10px; background: none; border: 0; border-radius: var(--radius); color: var(--muted); font-size: 11px; }
-  .motion-toggle:hover, .motion-toggle[aria-pressed="true"] { color: var(--accent); background: var(--soft); }
-}
-
 @media (min-width: 1100px) and (max-width: 1279px) and (hover: hover) and (pointer: fine) {
   .desktop-nav { gap: 22px; }
-  .motion-toggle span { display: none; }
 }

@@ -227,7 +227,7 @@ export default function Home() {
                 ))}
               </div>
               <div className="gallery-controls">
-                <div className="gallery-current" aria-live="polite" aria-atomic="true">
+                <div className="gallery-current" aria-live="off" aria-atomic="true">
                   <strong data-gallery-title>Bob gọn, nét riêng</strong>
                   <span data-gallery-detail>Cắt & tạo dáng</span>
                 </div>

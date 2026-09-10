@@ -5,9 +5,9 @@ Implemented the three requested desktop scenes while retaining the accepted mobi
 ## Implementation
 
 - Hero: visible, stable main frame and immediate left CTA; the image inside it zooms by 2.5% while two face-on secondary frames drift vertically over separate 22s/18s round trips and opposite starting directions. The one-time vertical entrance completes in under one second. The hero has no pointer response or scroll-linked transform.
-- Gallery: five photographs, horizontal movement, Y rotation, front/back depth, one 1250px native-scroll pin. Stable central caption, previous/next, count/progress and Skip. No wheel/touch interception or snap. Offstage photographs have no focusable controls and are inert/ARIA-hidden.
+- Gallery: five photographs autoplay through horizontal movement, Y rotation and front/back depth in normal page flow. A 1.1s transition and ~3.2s hold move forward then backward without a wrap jump. Stable central caption, previous/next, count/progress and Skip remain. Offstage photographs have no focusable controls and are inert/ARIA-hidden.
 - Space: two opposite 34s/41s vertical loops, restrained perspective and white-fading edges. Copy and booking CTA stay still; this section does not pin.
-- Header pause stops the new hero zoom/drift and existing autoplay. Hero and ribbons stop offscreen and while booking is open; `visibilitychange` also suspends playback. Resume continues from the held playhead and does not replay the hero entrance.
+- Desktop motion starts automatically and the former header pause control is removed. Hero, gallery and ribbons stop offscreen and while booking is open; `visibilitychange` also suspends playback. Resume continues from the held playhead and does not replay the hero entrance.
 - GSAP 3.15.0 is a conditional import; its production scene chunk is 118,739 bytes raw / 45,890 bytes gzip. Full motion requires ≥1100px wide, ≥650px tall, hover/fine pointer, and no reduced-motion preference.
 - Seven new optimized WebP photographs total 311,566 bytes. All sources, photographer names, license links and crop settings are in `public/images/motion/sources.json`. Original eight images, including personnel, are unchanged. Only the five requested GSAP skills were installed under `.agents/skills/`; global configuration was not changed.
 
@@ -18,21 +18,22 @@ Evidence is local in `evidence/art-direction/` (already ignored by this reposito
 | Check | Result |
 |---|---|
 | Baseline before UI edits | Full page screenshots at 375, 430, 1280, 1440, 1920; `baseline.json` |
-| Desktop 1280 / 1440 / 1920 × 900 | Three scenes captured; no horizontal overflow, exactly one pin |
-| Mobile touch emulation 375 / 430 × 900 | No pin, no motion controller, zero `/images/motion/` requests before/after scrolling |
+| Desktop 1280 / 1440 / 1920 × 900 | Three scenes captured; no horizontal overflow |
+| Mobile touch emulation 375 / 430 × 900 | No motion controller, zero `/images/motion/` requests before/after scrolling |
 | Tablet touch emulation 768 / 1280 × 900 | Lightweight version, no controller/pin or additional image requests |
 | Mobile layout comparison | Section-height differences below 0.6px and accumulated top differences below 2px, attributable to browser subpixel rasterization; original layout structure/crops preserved |
 | Booking | Opened in gallery and via mobile bar; service → default stylist/date → enabled time → review; explicit no-appointment-created message |
 | Keyboard | Gallery Next, Tab to Skip, Enter, target focus; booking Escape and opener focus return |
-| Pause / resume | Actual ribbon transform samples remain identical while paused and move in opposite directions after resume |
-| Offscreen / booking suspension | Actual ribbon transform samples remain identical during each interval |
-| Reduced motion mid-gallery | Pin removed; all five photos visible, non-inert, with inline transforms/visibility cleared |
-| Repeated 430 → 1440 → 375 → 1440 resize | Zero pins/inline frame transforms on narrow widths; one pin after re-entering desktop |
+| Gallery autoplay | With scroll and pointer idle, the active frame advanced from 01 to 02; Next moved to 03 and autoplay continued |
+| Normal page flow | Live gallery height measured ~577px at 1186×698; its bottom met the next section top and the DOM contained zero pin spacers |
+| Offscreen / booking suspension | Gallery transform samples remained identical offscreen and while booking was open, then changed again after close |
+| Reduced motion mid-gallery | All five photos visible, non-inert, with inline transforms/visibility cleared |
+| Repeated mobile → desktop resize | Zero inline frame transforms on mobile; the desktop controller and autoplay returned after re-entering the breakpoint |
 | Motion import failure | Blocked the actual scene JS chunk through browser network tools; static five-photo gallery and booking remain usable |
 | Hero pointer independence | With autoplay paused, rapid pointer moves across all three frames left every hero transform sample byte-identical; no hero pointer listener/tween remains |
 | Hero idle motion | Main frame bounds stayed fixed while its image scale changed 1 → 1.025; back/front translated only on Y through 24px/20px ranges with 22s/18s round trips |
 | Hero viewport / booking | Hero transform samples stayed identical offscreen and while booking was open, then continued from the held state without replaying the entrance |
-| User pause priority | Pause survived booking open/close and a desktop → narrow → desktop breakpoint round trip without autoplay resuming |
+| Header control removal | Header accessibility tree and DOM contain only the booking action; zero `.motion-toggle` elements remain |
 | Skip after polish | Target receives focus and settles at ~104px below viewport top, clear of the sticky header |
 | Automated checks | ESLint with zero warnings, TypeScript, production static build, all 9 booking tests pass |
 
@@ -42,7 +43,7 @@ Fixed from critique: reduced-motion visibility restoration; final ARIA/inert res
 
 ## Measured performance and limits
 
-Production local preview in the Codex Chromium browser, 1440×900, without CPU/network throttling: a recorded navigation had **CLS 0**, **LCP 244ms**, and one **85ms** long task during loading. A later pass detected CLS ~0.002 associated with changing caption/counter widths and programmatic repositioning; widths were fixed. The final measured 3-second gallery scroll, starting after the pin was positioned, had **CLS 0**, **no long tasks**, and 300 requestAnimationFrame intervals: median **10.0ms**, p95 **10.1ms**, maximum **10.2ms**, zero above 33.4ms. Earlier raw samples are retained in `browser-qa.json`. These are browser callback intervals on this host, not proof of compositor FPS or results on other devices. The screenshot does not establish motion smoothness; video and separate timing samples are supplied.
+Production local preview in the Codex Chromium browser, 1440×900, without CPU/network throttling: a recorded navigation had **CLS 0**, **LCP 244ms**, and one **85ms** long task during loading. A later pass detected CLS ~0.002 associated with changing caption/counter widths and programmatic repositioning; widths were fixed. The earlier 3-second gallery-scroll timing in `browser-qa.json` predates the autonomous gallery and is retained only as historical evidence. Current live checks verified idle advancement, normal-flow section geometry, manual Next, booking/offscreen suspension, reduced motion, mobile cleanup and zero runtime warnings/errors; they do not claim compositor FPS.
 
 **Not verified:** Safari/Firefox, physical iPhone/Android/tablet hardware, low-end GPU/CPU or constrained network. A real hidden-tab transition could not be induced: opening/foregrounding another in-app tab still reported `document.visibilityState === 'visible'`. The visibility listener is implemented and source-reviewed, but a true browser-hidden transition remains a manual check.
 

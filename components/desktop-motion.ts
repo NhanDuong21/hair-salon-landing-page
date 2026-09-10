@@ -136,18 +136,42 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
           frame.inert = i !== index;
         });
       };
-      const galleryTimeline = gsap.timeline({ onUpdate: draw, scrollTrigger: {
-        id: "sol-gallery", trigger: gallery, pin: select(".gallery-pin"),
-        start: () => `top ${document.querySelector(".site-header")!.getBoundingClientRect().height}px`,
-        end: "+=1250", scrub: true, anticipatePin: 1,
-        onRefresh: () => { spacing = Math.min(stage.clientWidth * 0.36, 435); draw(); },
-      } });
-      galleryTimeline.to(position, { value: frames.length - 1, duration: 1, ease: "none" });
+      const slideTimes = [0];
+      const galleryTimeline = gsap.timeline({ paused: true, repeat: -1, yoyo: true, onUpdate: draw });
+      const dwell = 3.2;
+      galleryTimeline.to(position, { value: 0, duration: dwell / 2, ease: "none" });
+      for (let index = 1; index < frames.length; index++) {
+        galleryTimeline.to(position, { value: index, duration: 1.1, ease: "power3.inOut" });
+        slideTimes[index] = galleryTimeline.duration();
+        galleryTimeline.to(position, { value: index, duration: index === frames.length - 1 ? dwell / 2 : dwell, ease: "none" });
+      }
+      const galleryItem = { animation: galleryTimeline, visible: false };
+      autoplay.push(galleryItem);
+      const galleryRect = gallery.getBoundingClientRect();
+      let galleryVisible = galleryRect.bottom > 0 && galleryRect.top < window.innerHeight;
+      galleryItem.visible = galleryVisible;
+      gallery.dataset.visible = String(galleryVisible);
+      const galleryObserver = new IntersectionObserver(([entry]) => {
+        galleryVisible = entry.isIntersecting;
+        galleryItem.visible = galleryVisible;
+        gallery.dataset.visible = String(galleryVisible);
+        gallery.dataset.running = String(galleryVisible && !suspended);
+        sync();
+      }, { threshold: 0 });
+      galleryObserver.observe(gallery);
+      const galleryResizeObserver = new ResizeObserver(() => {
+        spacing = Math.min(stage.clientWidth * 0.36, 435);
+        draw();
+      });
+      galleryResizeObserver.observe(stage);
+      cleanups.push(() => galleryObserver.disconnect());
+      cleanups.push(() => galleryResizeObserver.disconnect());
       draw();
       const step = (direction: number) => {
         const target = Math.max(0, Math.min(frames.length - 1, active + direction));
-        const trigger = galleryTimeline.scrollTrigger!;
-        window.scrollTo({ top: trigger.start + target / (frames.length - 1) * (trigger.end - trigger.start), behavior: "instant" });
+        if (target === active) return;
+        galleryTimeline.pause().totalTime(slideTimes[target], false);
+        if (!suspended && galleryVisible) galleryTimeline.play();
       };
       listen(previous, "click", () => step(-1));
       listen(next, "click", () => step(1));
@@ -165,6 +189,7 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
       const observer = new IntersectionObserver(entries => {
         const visible = entries[0].isIntersecting;
         loopItems.forEach(item => { item.visible = visible; });
+        ribbons.dataset.visible = String(visible);
         ribbons.dataset.running = String(visible && !suspended);
         sync();
       }, { threshold: 0 });
@@ -172,6 +197,9 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
       cleanups.push(() => observer.disconnect());
       cleanups.push(() => {
         delete gallery.dataset.galleryReady;
+        delete gallery.dataset.visible;
+        delete gallery.dataset.running;
+        delete ribbons.dataset.visible;
         delete ribbons.dataset.running;
         frames.forEach(frame => { frame.removeAttribute("aria-hidden"); frame.inert = false; });
       });
@@ -199,10 +227,12 @@ export function mountDesktopMotion(root: HTMLElement, initiallySuspended: boolea
       const hero = root.querySelector<HTMLElement>(".hero-scene");
       if (hero) hero.dataset.running = String(!value && hero.dataset.visible === "true");
       const ribbons = root.querySelector<HTMLElement>(".space-ribbons");
-      if (ribbons) ribbons.dataset.running = String(!value && autoplay.some(item => item.visible && item.animation.repeat() === -1));
+      if (ribbons) ribbons.dataset.running = String(!value && ribbons.dataset.visible === "true");
+      const gallery = root.querySelector<HTMLElement>(".inspiration-section");
+      if (gallery) gallery.dataset.running = String(!value && gallery.dataset.visible === "true");
     },
     destroy() {
-      // Reverting a scrubbed timeline can run its onUpdate one last time.
+      // Reverting an active timeline can run its onUpdate one last time.
       // Restore ARIA/inert only after that final render has finished.
       context.revert();
       cleanups.reverse().forEach(cleanup => cleanup());
