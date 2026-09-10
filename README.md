@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Mở **http://127.0.0.1:3000**. Nếu cổng bận, xem URL Next.js in trong terminal. Font được tải lúc dev/build rồi phục vụ từ local; lần build đầu cần truy cập Google Fonts.
+Mở **http://127.0.0.1:3000**. Nếu cổng bận, xem URL Next.js in trong terminal. Font được tải lúc dev/build rồi phục vụ từ local; lần build đầu cần truy cập Google Fonts.      
 
 Xem bản static export: `npm run build`, sau đó `npm start`. Lệnh start phục vụ thư mục `out/` tại localhost:3000; có thể đổi cổng bằng biến `PORT`. Đây là máy chủ preview local. Cấu hình xuất GitHub Pages và tiền tố repository được giữ nguyên.
 
