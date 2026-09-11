@@ -4,7 +4,7 @@ Landing page salon tiếng Việt, Next.js App Router + TypeScript + Tailwind CS
 
 ## Chạy local
 
-Node.js 20.9 trở lên; đã kiểm tra với Node 24.15 và npm.
+Node.js 20.9 trở lên; đã kiểm tra với Node 24.15 và npm.       
 
 ```sh
 npm ci
